@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,34 @@ Route::post('/user', function (Request $request) {
             'email.require'      => 'Email é obrigatório',
         ]
     );
+});
+
+Route::post('/posts/create', function (Request $request) {
+    $data = $request->all();
+
+        return response()->json([
+            'data' => [
+                'msg' => $data
+            ]
+        ], 200);
+
+    try{
+        Post::create($data);
+
+        return response()->json([
+            'data' => [
+                'msg' => 'Post cadastrado com sucesso!'
+            ]
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json($e->getMessage(), 401);
+    }
+});
+
+
+Route::get('/posts', function () {
+    return Post::all();
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
