@@ -36,13 +36,7 @@ Route::post('/user', function (Request $request) {
 
 Route::post('/posts/create', function (Request $request) {
     $data = $request->all();
-
-        return response()->json([
-            'data' => [
-                'msg' => $data
-            ]
-        ], 200);
-
+    
     try{
         Post::create($data);
 
